@@ -5,9 +5,10 @@
 ARG LIBGSM_URL="https://github.com/timothytylee/libgsm.git"
 ARG LIBGSM_COMMIT=98f1708fb5e06a0dfebd58a3b40d610823db9715
 
-# bump: alpine /FROM alpine:([\d.]+)/ docker:alpine|^3
-# bump: alpine link "Release notes" https://alpinelinux.org/posts/Alpine-$LATEST-released.html
-FROM alpine:3.16.2 AS base
+# Must be specified
+ARG ALPINE_VERSION
+
+FROM alpine:${ALPINE_VERSION} AS base
 
 FROM base AS download
 ARG LIBGSM_URL
@@ -36,6 +37,10 @@ RUN \
   mkdir -p /usr/local/include/gsm && \
   cp inc/*.h /usr/local/include/gsm && \
   cp libgsm.a /usr/local/lib && \
+  # Sanity tests
+  ar -t /usr/local/lib/libgsm.a && \
+  readelf -h /usr/local/lib/libgsm.a && \
+  # Cleanup
   apk del build
 
 FROM scratch
