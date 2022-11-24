@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 
 # bump: libgsm /LIBGSM_COMMIT=([[:xdigit:]]+)/ gitrefs:https://github.com/timothytylee/libgsm.git|re:#^refs/heads/master$#|@commit
 # bump: libgsm after ./hashupdate Dockerfile LIBGSM $LATEST
